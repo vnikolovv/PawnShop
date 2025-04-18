@@ -9,8 +9,17 @@
         @else
             @foreach ($products as $product)
                 <div class="card mb-4 bg-dark text-light" style="width: 18rem; border-color: gold;">
-                    <!-- ' . $fav_btn . $edit_delete . ' -->
-                    <img src="{{ asset('uploads/'.$product->image) }}" class="card-img-top" alt="Product Image">
+                    @if (Auth::user()->name == 'admin')
+                        <div class="card-header d-flex flex-row justify-content-between">
+                            <a class="btn btn-sm btn-light disabled" href="">Change</a>
+                            <form method="POST" action="{{ route('product.delete-product') }}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    @endif
+                    <img src="{{ asset('uploads/' . $product->image) }}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
                         <h5 class="card-title text-golden"> {{ $product->title }}</h5>
                         <p class="card-text text-golden"> {{ $product->price }}$</p>

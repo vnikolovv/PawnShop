@@ -34,4 +34,11 @@ class ProductController extends Controller
         
         return redirect()->route('products')->with('success', 'Successfully added product - '. $request['title'] .'!');
     }
+
+    public function deleteProduct(Request $request)
+    {
+        Product::destroy($request->id);
+        
+        return redirect()->route('products')->with('success', 'Successfully removed product!');
+    }
 }

@@ -45,6 +45,7 @@
                             <a href="/login" class="btn btn-outline-light {{ Route::currentRouteName() == 'login' ? 'active' : '' }}">Login</a>
                             <a href="/register" class="btn btn-outline-light {{ Route::currentRouteName() == 'register' ? 'active' : '' }}">Register</a>
                         @else
+                        <span class="text-light me-3 text-golden">Hello, {{ Auth::user()->name }}</span>
                         <form method="POST" action="{{ route('user.logout') }}">
                             @csrf
                             <button type="submit" class="btn btn-outline-light">Logout</button>

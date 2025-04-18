@@ -37,3 +37,5 @@ Route::get('/add-product', function () {
 Route::get('/products', [ProductController::class, 'loadAll'])->name('products')->middleware(LoggedInAuthenticator::class);
 
 Route::POST('/products/add-product', [ProductController::class, 'addProduct'])->name('product.add-product')->middleware(AdminAuthenticator::class);
+
+Route::POST('/products/delete-product', [ProductController::class, 'deleteProduct'])->name('product.delete-product')->middleware(AdminAuthenticator::class);
