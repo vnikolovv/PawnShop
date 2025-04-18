@@ -33,6 +33,12 @@
                             <a class="nav-link {{ Route::currentRouteName() == 'contacts' ? 'active' : '' }}"
                                 href="/contacts">Contacts</a>
                         </li>
+                        @if (Auth::check() && Auth::user()->name == 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link {{ Route::currentRouteName() == 'add-product' ? 'active' : '' }}" href="/add-product">Add
+                                    Product</a>
+                            </li>
+                        @endif
                     </ul>
                     <div class="d-flex align-items-center gap-4">
                         @if (!Auth::check())

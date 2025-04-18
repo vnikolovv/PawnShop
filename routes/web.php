@@ -1,32 +1,39 @@
 <?php
 
-use App\Http\Controllers\ProductController;
+use App\Http\Middleware\AdminAuthenticator;
+use App\Http\Middleware\NotLoggedInAuthenticator;
+use App\Http\Middleware\LoggedInAuthenticator;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 
-
-Route::get('/', function () {
-    return view('contacts');
-})->name('contacts');
+// Common
+Route::get('/',)->middleware(LoggedInAuthenticator::class)->middleware(NotLoggedInAuthenticator::class);
 
 Route::get('/contacts', function () {
     return view('contacts');
 })->name('contacts');
 
+// User-based
 Route::get('/login', function () {
     return view('login');
-})->name('login');
+})->name('login')->middleware(NotLoggedInAuthenticator::class);
 
 Route::get('/register', function () {
     return view('register');
-})->name('register');
+})->name('register')->middleware(NotLoggedInAuthenticator::class);
 
-//Route::POST('/products', [ProductController::class, 'loadAll'])->name('products');
+Route::POST('/users/register', [UserController::class, 'register'])->name('user.register')->middleware(NotLoggedInAuthenticator::class);
 
-Route::get('/products', [ProductController::class, 'loadAll'])->name('products');
+Route::POST('/users/login', [UserController::class, 'login'])->name('user.login')->middleware(NotLoggedInAuthenticator::class);
 
-Route::POST('/users/register', [UserController::class, 'register'])->name('user.register');
+Route::POST('/users/logout', [UserController::class, 'logout'])->name('user.logout')->middleware(LoggedInAuthenticator::class);
 
-Route::POST('/users/login', [UserController::class, 'login'])->name('user.login');
+// Product-based
+Route::get('/add-product', function () {
+    return view('add-product');
+})->name('add-product')->middleware(AdminAuthenticator::class);
 
-Route::POST('/users/logout', [UserController::class, 'logout'])->name('user.logout');
+Route::get('/products', [ProductController::class, 'loadAll'])->name('products')->middleware(LoggedInAuthenticator::class);
+
+Route::POST('/products/add-product', [ProductController::class, 'addProduct'])->name('product.add-product')->middleware(AdminAuthenticator::class);
