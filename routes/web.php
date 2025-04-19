@@ -36,8 +36,12 @@ Route::get('/add-product', function () {
 
 Route::get('/products', [ProductController::class, 'loadAll'])->name('products')->middleware(LoggedInAuthenticator::class);
 
-Route::get('/product/{id}', [ProductController::class, 'loadById'])->name('product.view')->middleware(LoggedInAuthenticator::class);
+Route::get('/edit-product/{id}', [ProductController::class, 'loadById'])->name('product.edit')->middleware(AdminAuthenticator::class)->defaults('view', 'edit-product');
+
+Route::get('/product/{id}', [ProductController::class, 'loadById'])->name('product.view')->middleware(LoggedInAuthenticator::class)->defaults('view', 'product');
 
 Route::POST('/products/add-product', [ProductController::class, 'addProduct'])->name('product.add-product')->middleware(AdminAuthenticator::class);
+
+Route::POST('/products/edit-product/{id}', [ProductController::class, 'editProduct'])->name('product.edit-product')->middleware(AdminAuthenticator::class);
 
 Route::POST('/products/delete-product', [ProductController::class, 'deleteProduct'])->name('product.delete-product')->middleware(AdminAuthenticator::class);
