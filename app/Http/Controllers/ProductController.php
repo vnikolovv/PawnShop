@@ -12,6 +12,16 @@ class ProductController extends Controller
         return view('products', ['products' => $products]);
     }
 
+    public function loadById($id)
+    {
+        $product = Product::find($id);
+
+        if (!$product)
+            return redirect()->route('products')->with('error', 'Product not found!');
+
+        return view('product', ['product' => $product]);
+    }
+
     public function addProduct(Request $request)
     {     
         $validated = request()->validate([
@@ -37,7 +47,16 @@ class ProductController extends Controller
 
     public function deleteProduct(Request $request)
     {
-        Product::destroy($request->id);
+        $product = Product::find($request->id);
+
+        if (!$product)
+            return redirect()->route('products')->with('error', 'Product not found!');
+
+        if (!Product::destroy($request->id))
+            return redirect()->route('products')->with('error', 'Failed to remove product!');
+
+        if (!unlink(public_path('uploads/' . $product->image)))
+            return redirect()->route('products')->with('error', 'Failed to remove product image!');
         
         return redirect()->route('products')->with('success', 'Successfully removed product!');
     }
