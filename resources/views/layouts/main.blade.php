@@ -25,7 +25,7 @@
                 <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'products' ? 'active' : '' }}"
+                            <a class="nav-link {{ Route::currentRouteName() == 'products' || Route::currentRouteName() == 'product.view' ? 'active' : '' }}"
                                 href="/products">Products</a>
                         </li>
                         <li class="nav-item">

@@ -25,7 +25,7 @@
                         <p class="card-text text-golden"> {{ $product->price }}$</p>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="/products/{{ $product->id }}" class="btn btn-sm btn-warning">View
+                        <a href="/product/{{ $product->id }}" class="btn btn-sm btn-warning">View
                             Product</a>
                     </div>
                 </div>

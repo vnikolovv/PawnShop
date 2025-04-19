@@ -42,7 +42,7 @@ class ProductController extends Controller
 
         $product = Product::create($validated);
         
-        return redirect()->route('products')->with('success', 'Successfully added product - '. $request['title'] .'!');
+        return redirect()->route('products')->with('success', 'Successfully added product - '. $request->title .'!');
     }
 
     public function deleteProduct(Request $request)
