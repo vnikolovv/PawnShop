@@ -6,13 +6,15 @@ use App\Http\Middleware\LoggedInAuthenticator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ContactController;
 
 // Common
 Route::get('/',)->middleware(LoggedInAuthenticator::class)->middleware(NotLoggedInAuthenticator::class);
 
-Route::get('/contacts', function () {
-    return view('contacts');
-})->name('contacts');
+
+Route::get('/contacts', [ContactController::class, 'show'])->name('contact.show');
+
+Route::POST('/contacts', [ContactController::class, 'submit'])->name('contact.submit')->middleware(AdminAuthenticator::class);
 
 // User-based
 Route::get('/login', function () {
