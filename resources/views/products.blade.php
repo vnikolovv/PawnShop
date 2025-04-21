@@ -2,13 +2,22 @@
 
 @section('maincontent')
 
+<style>
+    @media (max-width: 769px) {
+        .product-card-container {
+           margin-left: auto;
+           margin-right: auto
+        }
+    }
+</style>
+
     <div class="d-flex flex-wrap justify-content-between">
 
         @if ($products->isEmpty())
             <h1 class="text-golden">No products were found</h1>
         @else
             @foreach ($products as $product)
-                <div class="card mb-4 bg-dark text-light" style="width: 18rem; border-color: gold;">
+                <div class="card mb-4 bg-dark text-light product-card-container" style="width: 18rem; border-color: gold;">
                     @if (Auth::user()->name == 'admin')
                         <div class="card-header d-flex flex-row justify-content-between">
                             <a class="btn btn-sm btn-light" href="{{ route('product.edit', ['id' => $product->id]) }}">Change</a>
