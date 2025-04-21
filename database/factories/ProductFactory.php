@@ -17,7 +17,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'image' => fake()->imageUrl(640, 480, 'cats', true),
+            'image' => 'https://placehold.co/600x400/png/'.fake()->regexify('[A-F0-9]{6}').'?text='.urlencode(fake()->words(2, true)),           
             'title' => fake()->sentence(3),
             'description' => fake()->paragraph(3), 
             'price' => fake()->randomDigit()

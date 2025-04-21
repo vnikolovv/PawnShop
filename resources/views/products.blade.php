@@ -19,7 +19,7 @@
                             </form>
                         </div>
                     @endif
-                    <img src="{{ asset('uploads/' . $product->image) }}" class="card-img-top" alt="Product Image">
+                    <img src="{{ Str::startsWith($product->image, 'https://') ? $product->image : asset('uploads/' . $product->image) }}" class="card-img-top" alt="Product Image">
                     <div class="card-body">
                         <h5 class="card-title text-golden"> {{ $product->title }}</h5>
                         <p class="card-text text-golden"> {{ $product->price }}$</p>
