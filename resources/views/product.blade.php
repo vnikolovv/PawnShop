@@ -8,11 +8,11 @@
                 <div id="productCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="{{ asset('uploads/' . $product->image) }}" class="d-block w-100" alt="Product Main Image">
+                            <img src="{{ Str::startsWith($product->image, 'https://') ? $product->image : asset('uploads/' . $product->image) }}" class="d-block w-100" alt="Product Main Image">
                         </div>
                         @foreach ($additionalImages as $image)
                         <div class="carousel-item">
-                            <img src="{{ asset('uploads/' . $image->image) }}" class="d-block w-100" alt="Product Image">
+                            <img src="{{ Str::startsWith($image->image, 'https://') ? $image->image : asset('uploads/' . $image->image) }}" class="d-block w-100" alt="Product Image">
                         </div>
                         @endforeach
                     </div>
