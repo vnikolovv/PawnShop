@@ -39,7 +39,7 @@
                         <input type="file" class="form-control" id="image" name="image" accept="image/*">
                     </div>
                     <div class="mb-3 text-center">
-                        <img class="img-fluid" src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->title }}">
+                        <img class="img-fluid" src="{{ Str::startsWith($product->image, 'https://') ? $product->image : asset('uploads/' . $product->image) }}">
                     </div>
                     <input type="hidden" name="id" value="{{ $product->id }}">
                     <button type="submit" class="btn btn-warning mx-auto">Edit</button>
