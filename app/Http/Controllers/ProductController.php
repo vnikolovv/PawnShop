@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\AdditionalProductImage;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\ReservedProduct;
+use Illuminate\Support\Facades\Auth;    
+use App\Models\Offer;
+
 class ProductController extends Controller
 {
     public function loadAll(Request $request)
@@ -22,7 +26,11 @@ class ProductController extends Controller
 
         $additionalImages = AdditionalProductImage::where('product_id', $id)->get();
 
-        return view($view, ['product' => $product, 'additionalImages' => $additionalImages]);
+        $reserved = ReservedProduct::where('product_id',$id)->first();
+
+        $offerSent = Offer::where('product_id',$id)->where('user_id',Auth::user()->id)->first();
+
+        return view($view, ['product' => $product, 'additionalImages' => $additionalImages, 'reserved' => $reserved, 'offerSent' => $offerSent]);
     }
 
     public function addProduct(Request $request)
@@ -152,5 +160,39 @@ class ProductController extends Controller
         }
 
         return back()->with('success', 'Successfully added additional images!');
+    }
+
+    public function reserveProduct(Request $request)
+    {
+        $reserved = ReservedProduct::where('product_id', $request->productId)->first();
+        if ($reserved)
+            return back()->with('error', 'Too late! Someone else reserved it before you!');
+
+        if (!ReservedProduct::create([
+                'user_id' => Auth::user()->id,
+                'product_id' => $request->productId,
+            ]))
+            return back()->with('error', 'Failed to reserve product!');
+
+        return back()->with('success', 'Successfully reserved product!');
+    }
+
+    public function negotiateProduct(Request $request)
+    {
+        $validated = request()->validate([
+            'price' => 'required|gt:0'
+        ]);
+
+        if ($validated['price'] / $request->productPrice < 0.9)
+            return back()->with('error', 'Give a reasonable offer!');
+
+        if (!Offer::create([
+            'user_id' => Auth::user()->id,
+            'product_id' => $request->productId,
+            'price' => $validated['price']
+        ]))
+            return back()->with('error', 'Failed to send offer!');
+
+        return back()->with('success', 'Successfully sent offer!');
     }
 }

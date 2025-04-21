@@ -49,3 +49,7 @@ Route::POST('/products/delete-product', [ProductController::class, 'deleteProduc
 Route::POST('/products/delete-aditional-image', [ProductController::class, 'deleteAdditionalImage'])->name('product.delete-additional-image')->middleware(AdminAuthenticator::class);
 
 Route::POST('/products/add-additional-images', [ProductController::class, 'addAdditionalImages'])->name('product.add-additional-images')->middleware(AdminAuthenticator::class);
+
+Route::POST('/products/reserve', [ProductController::class, 'reserveProduct'])->name('product.reserve')->middleware(LoggedInAuthenticator::class);
+
+Route::POST('/products/negotiate', [ProductController::class, 'negotiateProduct'])->name('product.negotiate')->middleware(LoggedInAuthenticator::class);
